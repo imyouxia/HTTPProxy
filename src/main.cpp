@@ -9,7 +9,7 @@ int main(int argc,char* argv[])
     }
 
     int port = atoi(argv[1]);
-    
+    HTTPProxy *proxy = new HTTPProxy(port);    
 
     return 0;
 }

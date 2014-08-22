@@ -25,7 +25,8 @@ public:
     bool accept();
     int send(std::string);
     int recv(std::string&);
-
+    int sockfd();  
+    int cscokfd();// 返回客户端ID
 private:
     int sockfd; 
     int csockfd; //客户端

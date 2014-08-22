@@ -4,8 +4,8 @@ Socket::Socket()
 {
     memset(&cli_addr,0,sizeof(cli_addr));    
     sockfd = -1;
-    csockfd = -1;
-    ssockfd = -1;
+//    csockfd = -1;
+//    ssockfd = -1;
 }
 
 Socket::~Socket()
@@ -35,7 +35,9 @@ bool Socket::create()
         perror("failed to create socket!\n");        
         return false;
     }
-    
+
+    setnonblocking(sockfd);
+
     // 设置socket可重用
     int bReuse;
     if(setsockopt(sockfd,SOL_SOCKET,SO_REUSEADDR,&bReuse,sizeof(int)) == -1)
@@ -77,19 +79,16 @@ bool Socket::listen()
     return true;
 }
 
-bool Socket::accept()
+// 返回listen文件描述符
+int Socket::sockfd()
 {
-    if(!is_valid())
-    {
-        return false;
-    }
-
-    int addr_size = sizeof(cli_addr);
-    ssockfd = ::accept(sockfd,(struct sockaddr *)&cli_addr,(socklen_t *) &addr_size);
-    if(ssockfd == -1)
-    {
-        perror("failed to accept!\n");
-        return false;
-    }
-    return true;
+    return sockfd;
 }
+
+/*
+int Socket::csockfd()
+{
+    return csockfd;
+}
+*/
+
